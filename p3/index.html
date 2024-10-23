@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>to-do-app</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        .container {
+            width: 350px;
+            margin: auto;
+            border: 1px solid;
+            padding: 15px;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: scroll;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            box-sizing: border-box;
+            border-radius: 8px;
+        }
+
+        #tasklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        #tasklist li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .close {
+            color: red;
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>my-to-do-list</h2>
+        <input type="text" id="newtask" placeholder="add a new task..">
+        <button onclick="addtask()">Add</button>
+        <ul id="tasklist">
+
+        </ul>
+    </div>
+
+    <script>
+        function addtask() {
+            // Ambil elemen input dan nilainya
+            let taskInput = document.getElementById('newtask');
+            let taskValue = taskInput.value;
+
+            // Cek apakah input kosong
+            if (taskValue === '') {
+                alert('Please enter a task');
+                return;
+            }
+            let li = document.createElement('li');
+            li.innerHTML = `
+                ${taskValue}
+                <div>
+                    <button onclick="edittask(this)">Edit</button>
+                    <button onclick="deletetask(this)">Delete</button>
+                </div>
+            `;
+
+            // Tambahkan elemen <li> ke daftar <ul>
+            document.getElementById('tasklist').appendChild(li);
+
+            // Kosongkan input setelah menambahkan tugas
+            taskInput.value = '';
+        }
+
+        function deletetask(element) {
+            // Hapus elemen <li> dari <ul>
+            let li = element.parentElement.parentElement;
+            li.remove();
+        }
+
+
+        function edittask(element) {
+            // Dapatkan elemen <li> yang ingin diedit
+            let li = element.parentElement.parentElement;
+            let taskText = li.firstChild.textContent.trim();
+
+            // Munculkan prompt untuk mengedit task
+            let newTaskText = prompt('Edit your task:', taskText);
+            if (newTaskText !== null && newTaskText.trim() !== '') {
+                li.firstChild.textContent = newTaskText;
+            }
+        }
+    </script>
+</body>
+
+</html>
